@@ -12,6 +12,7 @@ A variable is a character 'x', 'y' or 'z'. There are no constants and no functio
 A formula is defined by: φ::=X[ts]|−φ|(φ◦φ)|Ezφ|Azφ where ◦ is a binary connective and t, s, z are variables. We will not include any spaces in our formulas.
 
 To compile: gcc -Wall graph.c yourfile.c -o output
+
 To run: ./output
 
 Created for an university project during my first year. 
