@@ -1,3 +1,10 @@
+#include <string.h>
+#include <stdlib.h>
+
+int no_edges;
+int parse(char *g);
+int eval(char *fmla, int edges[no_edges][2], int size, int V[3]);
+
 char *segment(char *g, int i, int j) {
 //if g represents a list of characters, this returns segment
 //starting from i'th character of g up to j-1 th character
@@ -33,6 +40,8 @@ int vartonum(char x) { //tested = WORKS
 		return 1;
 	} else if(x=='z') {
 		return 2;
+	} else {
+		return -1; //should never reach here
 	}
 }
 
@@ -118,22 +127,6 @@ char *parttwo(char *g) {
 	}
 }
 
-int parse(char *g) {
-	if(isUniversal(g) == 1) {
-		return 5;
-	} else if(isExistential(g) == 1) {
-		return 4;
-	} else if(isBinary(g) == 1) {
-		return 3;
-	} else if(isNegation(g) == 1) {
-		return 2;
-	} else if(isAtomic(g) == 1) {
-		return 1;
-	} else {
-		return 0;
-	}
-}
-
 int isAtomic(char *g) {
 	if(g[0] == 'X' && g[1] == '[' && varchar(g[2]) == 1 && varchar(g[3]) == 1 && g[4] == ']' && g[5] == '\0') {
 		return 1;
@@ -190,27 +183,20 @@ int isUniversal(char *g) {
 	return 0;
 }
 
-int no_edges;
-
-int eval(char *fmla, int edges[no_edges][2], int size, int V[3]){
-	int type = parse(fmla);
-	int result = 0;
-	if(type == 1) {
-		result = evalAtomic(fmla,edges,size,V);
+int parse(char *g) {
+	if(isUniversal(g) == 1) {
+		return 5;
+	} else if(isExistential(g) == 1) {
+		return 4;
+	} else if(isBinary(g) == 1) {
+		return 3;
+	} else if(isNegation(g) == 1) {
+		return 2;
+	} else if(isAtomic(g) == 1) {
+		return 1;
+	} else {
+		return 0;
 	}
-	if(type == 2) {
-		result = evalNegation(fmla,edges,size,V);
-	}
-	if(type == 3) {
-		result = evalBinary(fmla,edges,size,V);
-	}
-	if(type == 4) {
-		result = evalExistential(fmla,edges,size,V);
-	}
-	if(type == 5) {
-		result = evalUniversal(fmla,edges,size,V);
-	}
-	return result;
 }
 
 int varValue(char var, int V[3]) {
@@ -299,4 +285,25 @@ int evalUniversal(char *fmla, int edges[no_edges][2], int size, int V[3]) {
 		}
 	}
 	return 1;
+}
+
+int eval(char *fmla, int edges[no_edges][2], int size, int V[3]){
+	int type = parse(fmla);
+	int result = 0;
+	if(type == 1) {
+		result = evalAtomic(fmla,edges,size,V);
+	}
+	if(type == 2) {
+		result = evalNegation(fmla,edges,size,V);
+	}
+	if(type == 3) {
+		result = evalBinary(fmla,edges,size,V);
+	}
+	if(type == 4) {
+		result = evalExistential(fmla,edges,size,V);
+	}
+	if(type == 5) {
+		result = evalUniversal(fmla,edges,size,V);
+	}
+	return result;
 }

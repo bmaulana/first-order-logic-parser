@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>   /* for all the new-fangled string functions */
 #include <stdlib.h>     /* malloc, free, rand */
-#include "yourfile.c"
+#include "yourfile.h"
 /*your header file for your program.
 You should supply a file called yourfile.c
 See comments in yourfile.h
